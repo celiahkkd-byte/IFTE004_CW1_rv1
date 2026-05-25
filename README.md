@@ -94,6 +94,9 @@ MSFT. They cover h=1, h=5 and h=22, and use:
   MSE and DM evaluation.
 - EA kept in its original binary `0/1` scale.
 
+For the exact corrected-check rerun commands, see
+`docs/APPENDIX_D_CORRECTED_CHECKS.md`.
+
 ### VaR and descriptive statistics
 
 `results_release/var_h1/` contains the one-day-ahead relative VaR check-loss and
@@ -186,6 +189,8 @@ scripts that generated them are included, especially:
 - `scripts/15_build_corrected_paper_tables.py`
 
 For monthly-horizon details, see `docs/H22_REPRODUCTION.md`.
+For Appendix D corrected-check details, see
+`docs/APPENDIX_D_CORRECTED_CHECKS.md`.
 
 Full model reruns are computationally heavy. Use isolated output directories
 when rerunning any forecast script so existing submitted files are not

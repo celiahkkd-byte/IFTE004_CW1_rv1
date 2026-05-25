@@ -33,6 +33,9 @@ contains the `h=22` target columns needed to rerun these checks. See
 
 Only evaluation tables and provenance files are included. Per-seed checkpoints are excluded.
 
+The rerun commands are documented in
+`docs/APPENDIX_D_CORRECTED_CHECKS.md`.
+
 ## VaR And Descriptive Tables
 
 `var_h1/` contains one-day-ahead VaR relative check-loss and Diebold-Mariano tables.
