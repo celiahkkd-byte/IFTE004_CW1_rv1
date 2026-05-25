@@ -19,6 +19,10 @@ Key files:
 
 `mainline_h22_regenerated/` contains the regenerated **25-ticker** `h=22` evaluation tables used to validate the final monthly-horizon results.
 
+The committed processed panel at `data/processed/forecasting_panel.csv`
+contains the `h=22` target columns needed to rerun these checks. See
+`docs/H22_REPRODUCTION.md` for the monthly-horizon runbook.
+
 ## Appendix D Corrected Checks
 
 `appendix_d_corrected_h1h5/` and `appendix_d_corrected_h22/` contain the three-ticker robustness checks for AAPL, JPM, and MSFT at `h=1`, `h=5`, and `h=22`. These checks use:

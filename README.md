@@ -124,6 +124,10 @@ The processed modelling files are included:
 - `data/processed/intraday_bar_counts.csv`
 - `data/processed/intraday_validation_summary.csv`
 
+`forecasting_panel.csv` contains target columns for `h=1`, `h=5`, and `h=22`,
+so the submitted mainline and h=22 checks can be reproduced from the committed
+processed panel.
+
 Small external inputs used to build `PARTIAL_MALL` are also included under
 `data/external/`, including VIX, US 3-month T-bill, EPU, ADS, Hang Seng and
 earnings-announcement data.
@@ -180,6 +184,8 @@ scripts that generated them are included, especially:
 - `scripts/09_regenerate_h22_all_ticker_model_tables.py`
 - `scripts/09_integrate_h1h5_h22_results.py`
 - `scripts/15_build_corrected_paper_tables.py`
+
+For monthly-horizon details, see `docs/H22_REPRODUCTION.md`.
 
 Full model reruns are computationally heavy. Use isolated output directories
 when rerunning any forecast script so existing submitted files are not
