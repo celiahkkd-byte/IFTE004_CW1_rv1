@@ -105,6 +105,15 @@ python scripts/05_evaluate_outputs_isolated.py \
   --output-dir outputs_h22_rerun_nn50
 ```
 
+To rebuild the h=22 report-facing tables from the regenerated daily prediction
+file, run:
+
+```bash
+python scripts/09_regenerate_h22_all_ticker_model_tables.py \
+  --source-dir outputs_h22_rerun_nn50 \
+  --output-dir outputs_h22_all_ticker_model_results_regenerated
+```
+
 ## Appendix D h=22 Corrected Check
 
 The corrected three-ticker h=22 check is already summarized in:

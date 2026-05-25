@@ -180,7 +180,11 @@ pip install -r requirements.txt
 ## Reproducing Tables From Existing Outputs
 
 The submitted result tables are already available in `results_release/`. The
-scripts that generated them are included, especially:
+scripts that generated them are included. Scripts that operate on full daily
+prediction files require those files to be regenerated first, because large
+`outputs*/` directories are intentionally excluded from GitHub.
+
+Key table and audit scripts include:
 
 - `scripts/05_evaluate_outputs_isolated.py`
 - `scripts/09_make_pairwise_dm_word_tables.py`
@@ -195,10 +199,3 @@ For Appendix D corrected-check details, see
 Full model reruns are computationally heavy. Use isolated output directories
 when rerunning any forecast script so existing submitted files are not
 overwritten.
-
-## Upload Notes
-
-`GITHUB_UPLOAD_GUIDE.md` records the GitHub upload policy used for this
-submission. The key rule is that code, configurations, processed modelling data
-and lightweight result tables are committed, while large `outputs*/` folders and
-generated documents are excluded.

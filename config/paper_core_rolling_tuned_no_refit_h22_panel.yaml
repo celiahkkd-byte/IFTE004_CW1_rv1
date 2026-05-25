@@ -5,7 +5,7 @@ project:
 paths:
   raw_zip: null
   raw_dir: data/external/alpha_vantage_intraday_5min/combined_teacher_format
-  processed_dir: h22_all_models_with_code_and_word_FINAL_20260524/project/data/processed_h22_20260523
+  processed_dir: data/processed
   external_dir: data/external
   output_dir: outputs
 

@@ -54,4 +54,6 @@ Implemented ML families:
 - `WBA` is present only as a downloaded audit file and is excluded from the main panel because it joined the DJIA after the 2001-2017 paper sample period.
 - The original MALL includes stock-level OptionMetrics IV; this code does not fabricate IV.
 - The original paper uses cleaned TAQ transaction prices; this code uses Alpha Vantage OHLCV bars, so it is a transparent public-data approximation rather than an exact TAQ reconstruction.
-- The main default is fixed train/validation/test estimation for tractability. A rolling scheme is implemented and can be selected with `--scheme rolling`.
+- Mainline non-neural forecasts use rolling estimation in the paper-core
+  configurations. The NN checkpoint runner explicitly uses a fixed
+  train/validation/test split, matching the paper's NN design.

@@ -1,9 +1,10 @@
-"""Integrate the final h=1/h=5 mainline with the transferred h=22 supplement.
+"""Integrate regenerated h=1/h=5 and h=22 mainline prediction outputs.
 
 This script does not rerun any forecasting model. It reads the audited final
-h=1/h=5 output and the audited transferred h=22 package, normalizes h=22 NN
-single-best labels to the host/mainline convention, and writes a separate
-combined reporting directory.
+h=1/h=5 output and the audited h=22 output, normalizes h=22 NN single-best
+labels to the host/mainline convention, and writes a separate combined
+reporting directory. The default input directories are intentionally generic
+rerun locations; full daily prediction outputs are excluded from GitHub.
 """
 
 from __future__ import annotations
@@ -19,12 +20,10 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 
-H1H5_DIR = ROOT / "outputs_final_core_with_bagging_gb_harfix_nn50_tuned_no_refit_h1h5_20260523"
-H22_PACKAGE_DIR = ROOT / "h22_all_models_with_code_and_word_FINAL_20260524"
-H22_DIR = H22_PACKAGE_DIR / "outputs_final_h22_all_models_with_gb_nn_single_best_20260524"
-H22_WORD = H22_PACKAGE_DIR / "h22_relative_mse_dm_tables_with_nn_single_best_20260524.docx"
+H1H5_DIR = ROOT / "outputs_h1h5_mainline_rerun"
+H22_DIR = ROOT / "outputs_h22_rerun_nn50"
 
-OUT_DIR = ROOT / "outputs_final_core_h1h5_h22_integrated_20260524"
+OUT_DIR = ROOT / "outputs_final_core_h1h5_h22_integrated_rerun"
 
 NN_SINGLE_BEST_LABEL_MAP = {
     "NN1_single_best": "NN1_1",
@@ -129,7 +128,6 @@ def audit_outputs(combined_predictions: pd.DataFrame, tables: dict[str, pd.DataF
         "output_dir": str(OUT_DIR),
         "source_h1h5_dir": str(H1H5_DIR),
         "source_h22_dir": str(H22_DIR),
-        "source_h22_word": str(H22_WORD),
         "label_mapping_applied_to_h22": NN_SINGLE_BEST_LABEL_MAP,
         "rows": int(len(combined_predictions)),
         "datasets": sorted(combined_predictions["dataset"].astype(str).unique()),
@@ -148,10 +146,12 @@ def audit_outputs(combined_predictions: pd.DataFrame, tables: dict[str, pd.DataF
         "table_rows": {name: int(len(df)) for name, df in tables.items()},
         "h22_source_hashes": {
             "predictions/model_predictions.csv": sha256(H22_DIR / "predictions" / "model_predictions.csv"),
-            "audit_report.json": sha256(H22_DIR / "audit_report.json"),
-            "h22_word": sha256(H22_WORD),
         },
     }
+    if (H22_DIR / "audit_report.json").exists():
+        audit["h22_source_hashes"]["audit_report.json"] = sha256(H22_DIR / "audit_report.json")
+    if (H22_DIR / "run_provenance.json").exists():
+        audit["h22_source_hashes"]["run_provenance.json"] = sha256(H22_DIR / "run_provenance.json")
     expected_horizons = [1, 5, 22]
     problems = []
     if audit["horizons"] != expected_horizons:
@@ -179,13 +179,12 @@ def write_receipt(audit: dict) -> None:
         "",
         "## Scope",
         "",
-        "This directory integrates the audited h=1/h=5 mainline and the transferred audited h=22 supplement for reporting. No forecasting model was rerun.",
+        "This directory integrates the audited h=1/h=5 mainline and audited h=22 outputs for reporting. No forecasting model was rerun.",
         "",
         "## Sources",
         "",
         f"- h=1/h=5 mainline: `{H1H5_DIR.relative_to(ROOT)}/`",
-        f"- h=22 transferred supplement: `{H22_DIR.relative_to(ROOT)}/`",
-        f"- h=22 Word document copied from: `{H22_WORD.relative_to(ROOT)}`",
+        f"- h=22 mainline: `{H22_DIR.relative_to(ROOT)}/`",
         "",
         "## Label Normalization",
         "",
@@ -197,7 +196,7 @@ def write_receipt(audit: dict) -> None:
     lines.extend(
         [
             "",
-            "The transferred h=22 package itself is preserved unchanged.",
+            "The source output directories are preserved unchanged.",
             "",
             "## Audit",
             "",
@@ -246,9 +245,10 @@ def main() -> None:
     seed_selection = read_csv(H22_DIR / "tables" / "nn_single_best_seed_selection.csv")
     seed_selection.to_csv(OUT_DIR / "tables" / "h22_nn_single_best_seed_selection.csv", index=False)
 
-    shutil.copy2(H22_WORD, OUT_DIR / "docs" / H22_WORD.name)
-    shutil.copy2(H22_DIR / "audit_report.json", OUT_DIR / "docs" / "h22_audit_report.json")
-    shutil.copy2(H22_DIR / "run_provenance.json", OUT_DIR / "docs" / "h22_run_provenance.json")
+    if (H22_DIR / "audit_report.json").exists():
+        shutil.copy2(H22_DIR / "audit_report.json", OUT_DIR / "docs" / "h22_audit_report.json")
+    if (H22_DIR / "run_provenance.json").exists():
+        shutil.copy2(H22_DIR / "run_provenance.json", OUT_DIR / "docs" / "h22_run_provenance.json")
 
     audit = audit_outputs(predictions, tables | {"h22_nn_single_best_seed_selection": seed_selection})
     (OUT_DIR / "integration_audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")

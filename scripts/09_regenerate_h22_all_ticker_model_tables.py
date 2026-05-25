@@ -16,12 +16,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from rv1rep.evaluation import cross_sectional_summary, forecast_metrics, pairwise_relative_mse
 
 
-DEFAULT_SOURCE = (
-    ROOT
-    / "h22_all_models_with_code_and_word_FINAL_20260524"
-    / "outputs_final_h22_all_models_with_gb_nn_single_best_20260524"
-)
-DEFAULT_OUTPUT = ROOT / "outputs_h22_all_ticker_model_results_regenerated_20260525"
+# Default to the isolated output directory suggested in docs/H22_REPRODUCTION.md.
+# The directory is created by a full h=22 rerun and is intentionally not
+# committed to GitHub because it contains large daily prediction files.
+DEFAULT_SOURCE = ROOT / "outputs_h22_rerun_nn50"
+DEFAULT_OUTPUT = ROOT / "outputs_h22_all_ticker_model_results_regenerated"
 
 MODEL_LABEL_MAP = {
     "NN1_single_best": "NN1_1",
@@ -120,7 +119,11 @@ def main() -> None:
     source_tables = source_dir / "tables"
 
     if not pred_path.exists():
-        raise FileNotFoundError(pred_path)
+        raise FileNotFoundError(
+            f"{pred_path} not found. Re-run the h=22 forecasts first "
+            "using docs/H22_REPRODUCTION.md, or pass --source-dir to an "
+            "output directory containing predictions/model_predictions.csv."
+        )
     if output_dir.exists() and any(output_dir.iterdir()) and not args.allow_existing_output_dir:
         raise FileExistsError(f"Output directory is not empty: {output_dir}")
 
