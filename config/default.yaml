@@ -49,8 +49,8 @@ external_data:
   us3m_fred_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTB3"
   # Official daily US EPU data published by policyuncertainty.com.
   epu_daily_url: "https://www.policyuncertainty.com/media/All_Daily_Policy_Data.csv"
-  # Philadelphia Fed ADS page sometimes changes the hash. The downloader tries this URL first,
-  # then falls back to a user-supplied local XLSX if provided.
+  # Philadelphia Fed ADS page sometimes changes the hash. The downloader reads this XLSX
+  # endpoint in memory and stores the normalized local file as data/external/ads.csv.
   ads_xlsx_url: "https://www.philadelphiafed.org/-/media/frbp/assets/surveys-and-data/ads/ads_index_most_current_vintage.xlsx"
   # Yahoo chart endpoint for Hang Seng. yfinance is used as fallback.
   hsi_yahoo_symbol: "^HSI"

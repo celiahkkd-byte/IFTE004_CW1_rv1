@@ -91,7 +91,7 @@ def source_inventory() -> list[dict[str, str]]:
         },
         {
             "source": "ADS business conditions index",
-            "files": "data/external/ads.xlsx",
+            "files": "data/external/ads.csv",
             "provider": "Federal Reserve Bank of Philadelphia ADS current vintage",
             "used_for": "ADS",
             "notes": "Daily/near-daily level series, forward-filled to the equity trading calendar.",

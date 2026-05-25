@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Optional
 from urllib.parse import urlencode
+from io import BytesIO
 import datetime as dt
 import time
 
@@ -63,16 +64,26 @@ def load_epu_daily(path: Path, url: str, allow_network: bool = True) -> pd.DataF
 
 
 def load_ads(path: Path, url: str, allow_network: bool = True) -> pd.DataFrame:
-    if not path.exists() and allow_network:
-        _download_to_file(url, path)
     if not path.exists():
-        logger.warning('Missing ADS file %s; ADS unavailable.', path)
-        return pd.DataFrame(columns=['date', 'ads'])
-    try:
-        df = pd.read_excel(path)
-    except Exception as exc:
-        logger.warning('Cannot read ADS XLSX %s: %s', path, exc)
-        return pd.DataFrame(columns=['date', 'ads'])
+        if not allow_network:
+            logger.warning('Missing ADS file %s; ADS unavailable.', path)
+            return pd.DataFrame(columns=['date', 'ads'])
+        try:
+            logger.info('Downloading ADS XLSX in memory from %s', url)
+            r = requests.get(url, timeout=30)
+            r.raise_for_status()
+            df = pd.read_excel(BytesIO(r.content))
+        except Exception as exc:
+            logger.warning('Cannot download/read ADS XLSX from %s: %s', url, exc)
+            return pd.DataFrame(columns=['date', 'ads'])
+    elif path.suffix.lower() == '.csv':
+        df = pd.read_csv(path)
+    else:
+        try:
+            df = pd.read_excel(path)
+        except Exception as exc:
+            logger.warning('Cannot read ADS file %s: %s', path, exc)
+            return pd.DataFrame(columns=['date', 'ads'])
     # The current-vintage spreadsheet has changed names historically; infer date and ADS columns.
     date_col = None
     for c in df.columns:
@@ -88,7 +99,11 @@ def load_ads(path: Path, url: str, allow_network: bool = True) -> pd.DataFrame:
     if date.isna().all():
         date = pd.to_datetime(date_raw, errors='coerce')
     out = pd.DataFrame({'date': date, 'ads': pd.to_numeric(df[value_col], errors='coerce')})
-    return out.dropna(subset=['date']).sort_values('date')
+    out = out.dropna(subset=['date']).sort_values('date')
+    if path.suffix.lower() == '.csv' and not path.exists() and not out.empty:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        out.to_csv(path, index=False)
+    return out
 
 
 def _yahoo_unix(date_str: str) -> int:
@@ -190,7 +205,7 @@ def download_and_load_external(cfg: Dict) -> Dict[str, pd.DataFrame]:
         'vix': load_fred_csv(ext_dir / 'vix_fred.csv', e['vix_fred_url'], 'vix', allow),
         'us3m': load_fred_csv(ext_dir / 'us3m_fred.csv', e['us3m_fred_url'], 'us3m', allow),
         'epu': load_epu_daily(ext_dir / 'epu_daily.csv', e['epu_daily_url'], allow),
-        'ads': load_ads(ext_dir / 'ads.xlsx', e['ads_xlsx_url'], allow),
+        'ads': load_ads(ext_dir / 'ads.csv', e['ads_xlsx_url'], allow),
         'hsi': load_hsi(ext_dir / 'hsi.csv', e.get('hsi_yahoo_symbol', '^HSI'), e['start'], e['end'], allow),
         'iv': load_optional_iv(ext_dir / 'firm_iv.csv'),
         'earnings': load_optional_earnings(ext_dir / 'earnings_announcements.csv'),
