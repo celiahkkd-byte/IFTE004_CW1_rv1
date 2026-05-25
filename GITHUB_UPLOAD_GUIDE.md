@@ -14,7 +14,8 @@ The repository should contain:
 - Python environment file: `requirements.txt`
 - processed modelling data: selected files in `data/processed/`
 - external-data documentation and small external files in `data/external/`
-- lightweight result tables: `results_release/`
+- lightweight result tables: `results_release/`, including the 25-ticker
+  mainline `h=1`, `h=5`, and `h=22` result tables
 
 ## What Not To Upload
 

@@ -4,7 +4,7 @@ This directory contains lightweight result tables for the submitted reproduction
 
 ## Mainline Results
 
-`mainline_h1h5h22/` contains the integrated all-ticker mainline evaluation tables for horizons `h=1`, `h=5`, and `h=22`.
+`mainline_h1h5h22/` contains the integrated **25-ticker** mainline evaluation tables for horizons `h=1`, `h=5`, and `h=22`. This is the primary result set for the submitted report.
 
 Key files:
 
@@ -17,11 +17,11 @@ Key files:
 - `h22_audit_report.json`
 - `h22_run_provenance.json`
 
-`mainline_h22_regenerated/` contains the regenerated all-ticker `h=22` evaluation tables used to validate the final monthly-horizon results.
+`mainline_h22_regenerated/` contains the regenerated **25-ticker** `h=22` evaluation tables used to validate the final monthly-horizon results.
 
 ## Appendix D Corrected Checks
 
-`appendix_d_corrected_h1h5/` and `appendix_d_corrected_h22/` contain the three-ticker robustness checks for AAPL, JPM, and MSFT. These checks use:
+`appendix_d_corrected_h1h5/` and `appendix_d_corrected_h22/` contain the three-ticker robustness checks for AAPL, JPM, and MSFT at `h=1`, `h=5`, and `h=22`. These checks use:
 
 - `Dropout(rate=0.2)` for NNs, interpreting the reported dropout value as a keep probability.
 - training-window target standardisation with inverse transformation before evaluation.
