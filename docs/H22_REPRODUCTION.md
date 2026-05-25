@@ -16,6 +16,10 @@ The full daily h=22 prediction files and seed checkpoints are intentionally not
 committed because they are large intermediate outputs. The lightweight result
 tables and audit files are committed.
 
+This document supersedes the auxiliary-machine transfer prompts and package
+handoff notes used during development. Those historical transfer files are not
+needed to reproduce the submitted GitHub package.
+
 ## Mainline h=22 Design
 
 The h=22 mainline matches the submitted design:
