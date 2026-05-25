@@ -1,0 +1,17 @@
+# Core scientific stack
+numpy>=1.23
+pandas>=1.5
+scipy>=1.10
+scikit-learn>=1.2
+statsmodels>=0.14
+pyyaml>=6.0
+matplotlib>=3.7
+openpyxl>=3.1
+requests>=2.31
+
+# Optional but recommended for a closer neural-network replication.
+# The code runs without TensorFlow if neural networks are disabled.
+tensorflow>=2.13; platform_machine != 'aarch64'
+
+# Optional external market data fallback for Hang Seng Index if direct Yahoo download fails.
+yfinance>=0.2.40

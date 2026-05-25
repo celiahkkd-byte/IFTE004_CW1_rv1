@@ -1,0 +1,146 @@
+{
+  "base_final_audit": {
+    "datasets": [
+      "MHAR",
+      "PARTIAL_MALL"
+    ],
+    "duplicate_keys": 0,
+    "horizons": [
+      22
+    ],
+    "missing_forecasts": 0,
+    "model_count": 18,
+    "models": [
+      "AdaptiveLasso",
+      "Bagging",
+      "ElasticNet",
+      "GradientBoosting",
+      "HAR",
+      "HARQ",
+      "HARX",
+      "Lasso",
+      "LevHAR",
+      "LogHAR",
+      "NN1",
+      "NN2",
+      "NN3",
+      "NN4",
+      "PostLasso",
+      "RandomForest",
+      "Ridge",
+      "SHAR"
+    ],
+    "rows": 745836,
+    "ticker_count": 25,
+    "zero_forecasts": 0
+  },
+  "code_commit_hash": null,
+  "contains_gradient_boosting": true,
+  "created_at_utc": "2026-05-24T22:08:11.577549+00:00",
+  "datasets": [
+    "MHAR",
+    "PARTIAL_MALL"
+  ],
+  "description": "Complete h=22 final results with GradientBoosting, NN top-10 ensemble, and NN single-best seed columns.",
+  "duplicate_keys": 0,
+  "horizons": [
+    22
+  ],
+  "input_files": {
+    "base_final_predictions": {
+      "path": "C:\\Users\\celia\\Desktop\\h22_added\\h22_transfer_package_20260523_152155\\h22_transfer_package_20260523\\outputs_final_h22_all_models_with_gb_20260524\\predictions\\model_predictions.csv",
+      "sha256": "5b6cace82bda491021b39a9548e9d5d95a2721c748b9fda54365394c7c5b706f"
+    },
+    "nn_seed_root": "C:\\Users\\celia\\Desktop\\h22_added\\h22_transfer_package_20260523_152155\\h22_transfer_package_20260523\\outputs_h22_nn_tasks_20260523\\nn_seed_predictions"
+  },
+  "missing_forecasts": 0,
+  "model_count": 22,
+  "models": [
+    "AdaptiveLasso",
+    "Bagging",
+    "ElasticNet",
+    "GradientBoosting",
+    "HAR",
+    "HARQ",
+    "HARX",
+    "Lasso",
+    "LevHAR",
+    "LogHAR",
+    "NN1",
+    "NN1_single_best",
+    "NN2",
+    "NN2_single_best",
+    "NN3",
+    "NN3_single_best",
+    "NN4",
+    "NN4_single_best",
+    "PostLasso",
+    "RandomForest",
+    "Ridge",
+    "SHAR"
+  ],
+  "nn_single_best_models": [
+    "NN1_single_best",
+    "NN2_single_best",
+    "NN3_single_best",
+    "NN4_single_best"
+  ],
+  "nn_single_best_selection_rule": "For each dataset/model/ticker, choose the seed with minimum validation MSE among seeds 42..91.",
+  "nn_top10_models": [
+    "NN1",
+    "NN2",
+    "NN3",
+    "NN4"
+  ],
+  "notes": [
+    "No NN model was retrained; single-best seed rows are derived from existing seed checkpoints.",
+    "Existing NN1..NN4 rows are retained as top-10 ensemble outputs.",
+    "New NN*_single_best rows correspond to the paper-style NN^1 columns.",
+    "No existing output directory was overwritten."
+  ],
+  "output_files": {
+    "predictions/model_predictions.csv": 911580,
+    "predictions/nn_single_best_predictions.csv": 165744,
+    "tables/diebold_mariano_tests.csv": 24200,
+    "tables/forecast_metrics_by_asset.csv": 1100,
+    "tables/forecast_summary_cross_section.csv": 44,
+    "tables/nn_single_best_seed_selection.csv": 200,
+    "tables/pairwise_relative_mse_matrix.csv": 44
+  },
+  "package_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.1",
+    "statsmodels": "0.14.6",
+    "tensorflow": "2.21.0",
+    "torch": null
+  },
+  "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "rows": 911580,
+  "seed_combo_count": 200,
+  "seed_file_count": 10000,
+  "single_best_audit": {
+    "datasets": [
+      "MHAR",
+      "PARTIAL_MALL"
+    ],
+    "duplicate_keys": 0,
+    "horizons": [
+      22
+    ],
+    "missing_forecasts": 0,
+    "model_count": 4,
+    "models": [
+      "NN1_single_best",
+      "NN2_single_best",
+      "NN3_single_best",
+      "NN4_single_best"
+    ],
+    "rows": 165744,
+    "ticker_count": 25,
+    "zero_forecasts": 0
+  },
+  "ticker_count": 25,
+  "zero_forecasts": 0
+}

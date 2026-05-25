@@ -1,0 +1,31 @@
+symbol,role,ok_months,bad_months_count,combined_rows,unique_dates,first_timestamp,last_timestamp,note
+AAPL,paper_full_current_ticker,204,0,332797,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+AXP,paper_full_current_ticker,204,0,332169,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+BA,paper_full_current_ticker,204,0,332151,4276,2001-01-02 09:35:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+CAT,paper_full_current_ticker,204,0,332186,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+CSCO,paper_full_current_ticker,204,0,332390,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+CVX,paper_partial_current_ticker,195,9,317404,4085,2001-10-10 09:30:00,2017-12-29 15:55:00,Current CVX starts in AV at 2001-10; paper used predecessor before ChevronTexaco/CVX history.
+DIS,paper_full_current_ticker,204,0,332224,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+DOW,paper_unavailable_in_av_sample,0,3,0,0,,,DOW current ticker is not available for 2001-2017; DD/DOW probes also failed for sampled months.
+GE,paper_full_current_ticker,204,0,332512,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+GS,paper_full_current_ticker,204,0,332195,4276,2001-01-02 09:35:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+HD,paper_full_current_ticker,204,0,332216,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+IBM,paper_full_current_ticker,204,0,332271,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+INTC,paper_full_current_ticker,204,0,332419,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+JNJ,paper_full_current_ticker,204,0,332136,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+JPM,paper_full_current_ticker,204,0,332359,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+KO,paper_full_current_ticker,204,0,332138,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+MCD,paper_full_current_ticker,204,0,332152,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+MMM,paper_full_current_ticker,204,0,332118,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+MRK,paper_full_current_ticker,204,0,332183,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+MSFT,paper_full_current_ticker,204,0,332419,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+NKE,paper_full_current_ticker,204,0,331966,4276,2001-01-02 09:35:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+PFE,paper_full_current_ticker,204,0,332211,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+PG,paper_full_current_ticker,204,0,332164,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+RTX,paper_partial_current_ticker,129,75,208927,2689,2007-04-27 10:55:00,2017-12-29 15:55:00,Current RTX starts in AV on 2007-04-27; paper used United Technologies predecessor for the sample.
+TRV,paper_partial_current_ticker,131,73,212293,2732,2007-02-27 09:30:00,2017-12-29 15:55:00,Current TRV starts in AV on 2007-02-27; paper used St. Paul Travelers predecessor before ticker change.
+UNH,paper_full_current_ticker,204,0,331921,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+VZ,paper_full_current_ticker,204,0,332215,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+WMT,paper_full_current_ticker,204,0,332262,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+XOM,paper_full_current_ticker,204,0,332327,4276,2001-01-02 09:30:00,2017-12-29 15:55:00,Full 2001-01 to 2017-12 monthly AV intraday coverage downloaded.
+WBA,excluded_audit_download,204,0,332108,4276,2001-01-02 09:35:00,2017-12-29 15:55:00,"Downloaded during audit checks; excluded from the main panel because WBA joined the DJIA after the paper sample period on 2018-06-26."

@@ -1,0 +1,60 @@
+{
+  "source_prediction_file": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/h22_all_models_with_code_and_word_FINAL_20260524/outputs_final_h22_all_models_with_gb_nn_single_best_20260524/predictions/model_predictions.csv",
+  "source_prediction_sha256": "2f2b69d5d4bfc0cf21277d44821466fa212ece666f50bb78ea490fd14becd5ac",
+  "output_dir": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/outputs_h22_all_ticker_model_results_regenerated_20260525",
+  "rows": 911580,
+  "datasets": [
+    "MHAR",
+    "PARTIAL_MALL"
+  ],
+  "horizons": [
+    22
+  ],
+  "tickers": 25,
+  "models": [
+    "HAR",
+    "HARX",
+    "LogHAR",
+    "LevHAR",
+    "SHAR",
+    "HARQ",
+    "Ridge",
+    "Lasso",
+    "ElasticNet",
+    "AdaptiveLasso",
+    "PostLasso",
+    "Bagging",
+    "RandomForest",
+    "GradientBoosting",
+    "NN1_1",
+    "NN1",
+    "NN2_1",
+    "NN2",
+    "NN3_1",
+    "NN3",
+    "NN4_1",
+    "NN4"
+  ],
+  "model_count": 22,
+  "duplicate_keys": 0,
+  "missing_forecasts": 0,
+  "zero_forecasts": 0,
+  "model_label_normalization": {
+    "NN1_single_best": "NN1_1",
+    "NN2_single_best": "NN2_1",
+    "NN3_single_best": "NN3_1",
+    "NN4_single_best": "NN4_1"
+  },
+  "pairwise_direction": "cell(row i, column j) = MSE_j / MSE_i; values below one mean the column model improves on the row benchmark",
+  "max_abs_diff_vs_source_pairwise_csv_after_label_normalization": 4.440892098500626e-16,
+  "max_abs_diff_vs_source_summary_csv_after_label_normalization": 2.220446049250313e-16,
+  "generated_files": [
+    "predictions/model_predictions_h22_normalized.csv",
+    "tables/forecast_metrics_by_asset.csv",
+    "tables/forecast_summary_cross_section.csv",
+    "tables/pairwise_relative_mse_matrix.csv",
+    "tables/diebold_mariano_tests.csv",
+    "tables/relative_mse_vs_har_by_ticker_wide.csv",
+    "tables/relative_mse_vs_har_summary_wide.csv"
+  ]
+}

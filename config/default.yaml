@@ -1,0 +1,166 @@
+project:
+  name: rv1_professional_reproduction
+  random_seed: 42
+
+paths:
+  # Default submission data are the included Alpha Vantage 5-minute files.
+  # raw_zip is kept only for the older teacher-data workflow and is not needed here.
+  raw_zip: null
+  raw_dir: data/external/alpha_vantage_intraday_5min/combined_teacher_format
+  processed_dir: data/processed
+  external_dir: data/external
+  output_dir: outputs
+
+assets:
+  # Balanced AV subset with full 2001-01 to 2017-12 coverage. CVX, RTX, TRV and
+  # DOW require predecessor/partial histories that the AV endpoint did not provide.
+  # WBA was downloaded for audit purposes but is excluded because it joined the DJIA
+  # after the 2001-2017 sample period.
+  tickers: [AAPL, AXP, BA, CAT, CSCO, DIS, GE, GS, HD, IBM, INTC, JNJ, JPM, KO, MCD, MMM, MRK, MSFT, NKE, PFE, PG, UNH, VZ, WMT, XOM]
+  trading_start: "09:30"
+  trading_end: "15:55"
+  # Alpha Vantage timestamps label the start of each 5-minute bar; the final
+  # regular-hours bar starts at 15:55 and closes at 16:00.
+  timestamp_label: bar_start
+  bar_interval_minutes: 5
+  bars_per_full_day: 78
+  five_min_returns_per_day: 78
+  require_full_day_bars: true
+  # For the AV panel, keep complete days per ticker rather than forcing a 25-stock
+  # common-calendar intersection that discards otherwise valid stock-days.
+  require_all_tickers_full_day: false
+  # Realized variance is computed from log returns. Keep scale=1 for raw variance.
+  # For numerical stability in ML, scaling is not required because features are standardized.
+  rv_scale: 1.0
+
+feature_engineering:
+  weekly_window: 5
+  monthly_window: 22
+  horizons: [1]
+  # future_average means h=5 targets mean(RV_{t+1},...,RV_{t+5}).
+  horizon_target_mode: future_average
+  eps: 1.0e-12
+  include_optional_iv_if_file_exists: true
+  include_earnings_if_file_exists: true
+
+external_data:
+  # FRED direct CSV endpoints do not require an API key.
+  vix_fred_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS"
+  us3m_fred_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTB3"
+  # Official daily US EPU data published by policyuncertainty.com.
+  epu_daily_url: "https://www.policyuncertainty.com/media/All_Daily_Policy_Data.csv"
+  # Philadelphia Fed ADS page sometimes changes the hash. The downloader tries this URL first,
+  # then falls back to a user-supplied local XLSX if provided.
+  ads_xlsx_url: "https://www.philadelphiafed.org/-/media/frbp/assets/surveys-and-data/ads/ads_index_most_current_vintage.xlsx"
+  # Yahoo chart endpoint for Hang Seng. yfinance is used as fallback.
+  hsi_yahoo_symbol: "^HSI"
+  start: "2000-12-01"
+  end: "2018-01-15"
+  allow_network: true
+
+splitting:
+  # Paper main split: 70% train, 10% validation, 20% test.
+  train_frac: 0.70
+  val_frac: 0.10
+  test_frac: 0.20
+  # Alternative robustness in the paper: train_days=1000/2000 and val_days=200.
+  fixed_train_days: null
+  fixed_val_days: null
+
+estimation:
+  # Mainline default for non-neural forecasts: rolling estimation. The
+  # checkpointed NN runner overrides this to fixed to match the paper's NN
+  # train/validation/test design.
+  scheme: rolling
+  rolling_step: 1
+  # Only retrain tree/ML models every N test points in rolling mode for tractability.
+  ml_refit_every: 5
+  # Paper-core default for validation-tuned non-NN models: fit candidates on the
+  # training block, select hyperparameters on validation, and use the selected
+  # training-fitted estimator directly. Set true only for legacy train+validation
+  # final-refit experiments.
+  refit_tuned_models_on_train_validation: false
+  negative_forecast_policy: in_sample_min_rv
+  insanity_filter:
+    enabled: true
+    max_multiple_of_in_sample_mean: 100.0
+
+models:
+  # Keep the full model universe available. Use CLI --models to run a subset.
+  enabled:
+    - HAR
+    - HARX
+    - LogHAR
+    - LevHAR
+    - SHAR
+    - HARQ
+    - Ridge
+    - Lasso
+    - ElasticNet
+    - AdaptiveLasso
+    - PostLasso
+    - Bagging
+    - RandomForest
+    - GradientBoosting
+    # Neural networks require TensorFlow. Disable if unavailable.
+    - NN1
+    - NN2
+    - NN3
+    - NN4
+
+  regularization:
+    alpha_grid_size: 80       # Paper: 1000; reduce for coursework speed, increase if desired.
+    alpha_min: 1.0e-5
+    alpha_max: 1.0e2
+    elastic_l1_ratios: [0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
+
+  trees:
+    n_estimators: 500
+    min_samples_leaf: 5
+    random_forest_max_features: one_third  # one_third, sqrt, or all
+    n_jobs: -1
+
+  gradient_boosting:
+    depths: [1, 2]
+    n_estimators: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+    learning_rates: [0.01, 0.1]
+
+  neural_network:
+    use_tensorflow: true
+    # Paper: train 100 seeds and report the best plus the ensemble of the best 10.
+    # This replication standardizes on 50 seeds for the current main results.
+    seeds: 50
+    ensemble_top: 10
+    epochs: 500
+    patience: 100
+    learning_rate: 0.001
+    dropout: 0.8
+    batch_size: 64
+    architectures:
+      NN1: [2]
+      NN2: [4, 2]
+      NN3: [8, 4, 2]
+      NN4: [16, 8, 4, 2]
+
+experiments:
+  datasets:
+    # MHAR: HAR lag variables only, plus extension-specific variables when the model requires them.
+    - MHAR
+    # PARTIAL_MALL: MALL-style extension using free public data and intraday-data variables;
+    # stock-level OptionMetrics IV is omitted unless a user supplies a file.
+    - PARTIAL_MALL
+  horizons: [1]
+
+interpretability:
+  enabled: true
+  model_for_importance: RandomForest
+  permutation_repeats: 20
+  ale_grid_size: 40
+  ale_features: [rvd, rvw, vix, m1w, dvol]
+
+var_backtest:
+  enabled: true
+  alpha: 0.05
+  use_parametric_normal: true
+  # Alternative empirical calibration uses standardized residuals from train/validation.
+  use_empirical_residual_quantile: true

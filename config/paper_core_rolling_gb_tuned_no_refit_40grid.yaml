@@ -1,0 +1,120 @@
+project:
+  name: rv1_professional_reproduction_gb_tuned_no_refit_40grid
+  random_seed: 42
+
+paths:
+  raw_zip: null
+  raw_dir: data/external/alpha_vantage_intraday_5min/combined_teacher_format
+  processed_dir: data/processed
+  external_dir: data/external
+  output_dir: outputs
+
+assets:
+  tickers: [AAPL, AXP, BA, CAT, CSCO, DIS, GE, GS, HD, IBM, INTC, JNJ, JPM, KO, MCD, MMM, MRK, MSFT, NKE, PFE, PG, UNH, VZ, WMT, XOM]
+  trading_start: "09:30"
+  trading_end: "15:55"
+  timestamp_label: bar_start
+  bar_interval_minutes: 5
+  bars_per_full_day: 78
+  five_min_returns_per_day: 78
+  require_full_day_bars: true
+  require_all_tickers_full_day: false
+  rv_scale: 1.0
+
+feature_engineering:
+  weekly_window: 5
+  monthly_window: 22
+  horizons: [1, 5, 22]
+  horizon_target_mode: future_average
+  eps: 1.0e-12
+  include_optional_iv_if_file_exists: true
+  include_earnings_if_file_exists: true
+
+preprocessing:
+  # GB backfill rows in the reported mainline follow the same policy as the
+  # main forecast tables: binary EA is standardized with all model inputs.
+  standardize_binary_features: true
+  binary_features: [ea]
+
+external_data:
+  vix_fred_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS"
+  us3m_fred_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTB3"
+  epu_daily_url: "https://www.policyuncertainty.com/media/All_Daily_Policy_Data.csv"
+  ads_xlsx_url: "https://www.philadelphiafed.org/-/media/frbp/assets/surveys-and-data/ads/ads_index_most_current_vintage.xlsx"
+  hsi_yahoo_symbol: "^HSI"
+  start: "2000-12-01"
+  end: "2018-01-15"
+  allow_network: true
+
+splitting:
+  train_frac: 0.70
+  val_frac: 0.10
+  test_frac: 0.20
+  fixed_train_days: null
+  fixed_val_days: null
+
+estimation:
+  # Paper-core default for non-neural forecasts: rolling estimation.
+  scheme: rolling
+  rolling_step: 1
+  ml_refit_every: 5
+  refit_tuned_models_on_train_validation: false
+  negative_forecast_policy: in_sample_min_rv
+  insanity_filter:
+    enabled: true
+    max_multiple_of_in_sample_mean: 100.0
+
+models:
+  enabled:
+    - GradientBoosting
+
+  regularization:
+    alpha_grid_size: 80
+    alpha_min: 1.0e-5
+    alpha_max: 1.0e2
+    elastic_l1_ratios: [0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
+
+  trees:
+    n_estimators: 500
+    min_samples_leaf: 5
+    random_forest_max_features: one_third
+    n_jobs: -1
+
+  gradient_boosting:
+    depths: [1, 2]
+    n_estimators: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+    learning_rates: [0.01, 0.1]
+
+  neural_network:
+    use_tensorflow: true
+    seeds: 50
+    ensemble_top: 10
+    epochs: 500
+    patience: 100
+    learning_rate: 0.001
+    dropout: 0.8
+    batch_size: 64
+    architectures:
+      NN1: [2]
+      NN2: [4, 2]
+      NN3: [8, 4, 2]
+      NN4: [16, 8, 4, 2]
+
+experiments:
+  datasets:
+    - MHAR
+    - PARTIAL_MALL
+  horizons: [1, 5, 22]
+
+interpretability:
+  enabled: true
+  models_for_importance: [HARX, ElasticNet, RandomForest, NN10_2]
+  permutation_repeats: 20
+  ale_grid_size: 100
+  ale_features: [rvd, rvw, m1w]
+
+var_backtest:
+  enabled: true
+  alpha: 0.05
+  use_parametric_normal: false
+  use_empirical_residual_quantile: true

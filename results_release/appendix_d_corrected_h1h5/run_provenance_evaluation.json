@@ -1,0 +1,38 @@
+{
+  "completed_at_utc": "2026-05-24T20:53:06.603254+00:00",
+  "datasets": [
+    "MHAR",
+    "PARTIAL_MALL"
+  ],
+  "horizons": [
+    1,
+    5
+  ],
+  "models": [
+    "AdaptiveLasso",
+    "Bagging",
+    "ElasticNet",
+    "GradientBoosting",
+    "HAR",
+    "HARQ",
+    "HARX",
+    "Lasso",
+    "LevHAR",
+    "LogHAR",
+    "NN1",
+    "NN1_1",
+    "NN2",
+    "NN2_1",
+    "NN3",
+    "NN3_1",
+    "NN4",
+    "NN4_1",
+    "PostLasso",
+    "RandomForest",
+    "Ridge",
+    "SHAR"
+  ],
+  "output_dir": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/outputs_corrected_paper_style_h1h5_20260524_143417_active",
+  "rows": 222064,
+  "script": "15_build_corrected_paper_tables.py"
+}

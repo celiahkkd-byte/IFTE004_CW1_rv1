@@ -1,0 +1,13 @@
+{
+  "created_at_utc": "2026-05-23T20:21:06.866993+00:00",
+  "date_max": "2017-12-29",
+  "date_min": "2001-01-02",
+  "outputs": {
+    "audit_csv": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/outputs_paper_table1_explanatory_stats_20260523/table1_explanatory_variable_summary_audit.csv",
+    "csv": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/outputs_paper_table1_explanatory_stats_20260523/table1_explanatory_variable_summary.csv",
+    "docx": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/outputs_paper_table1_explanatory_stats_20260523/table1_explanatory_variable_summary.docx"
+  },
+  "panel": "/Users/celiawong/Desktop/Course004 machine learning/004_individual/rv1_professional_reproduction_code/data/processed/forecasting_panel.csv",
+  "rows": 104563,
+  "tickers": 25
+}

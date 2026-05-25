@@ -1,0 +1,37 @@
+{
+  "completed_at_utc": "2026-05-24T20:52:35.946105+00:00",
+  "datasets": [
+    "MHAR",
+    "PARTIAL_MALL"
+  ],
+  "horizons": [
+    1,
+    5
+  ],
+  "models": [
+    "HAR",
+    "HARX",
+    "LogHAR",
+    "LevHAR",
+    "SHAR",
+    "HARQ",
+    "Ridge",
+    "Lasso",
+    "ElasticNet",
+    "AdaptiveLasso",
+    "PostLasso",
+    "Bagging",
+    "RandomForest",
+    "GradientBoosting"
+  ],
+  "script": "14_run_corrected_nonnn_combined.py",
+  "specification": "combined_corrected_paper_style",
+  "target_scaling_loghar": "log_target_baseline_no_extra_standardization",
+  "target_scaling_non_loghar": "standardized_y_train_inverse_transformed",
+  "tickers": [
+    "AAPL",
+    "JPM",
+    "MSFT"
+  ],
+  "x_standardization": "continuous_only_train_window"
+}
